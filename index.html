@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!--
+  ════════════════════════════════════════════════════
+  교육용 웹앱 안내 (Educational Web App Notice)
+  용도: 초등학교 디지털 시민교육 / AI 리터러시 수업 자료
+  Purpose: Elementary School Digital Citizenship & AI Literacy Classroom Material
+  대상: 초등학교 5~6학년 (Grade 5-6)
+  분류: 교육(Education) · 비상업적 학습 콘텐츠 (Non-commercial learning content)
+  특징: 외부 서버 통신 없음 / 개인정보 수집 없음 / 광고 없음
+        No external API calls, no data collection, no ads.
+  호환 기기: 갤럭시 탭, 크롬북, 윈도우/맥 PC, 태블릿 등 모든 최신 브라우저
+  ════════════════════════════════════════════════════
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="description" content="초등학교 디지털 시민교육 및 AI 리터러시 수업용 교육 자료 - 유튜브 추천 알고리즘 이해 게임">
+<meta name="keywords" content="교육, 초등학교, 디지털시민교육, AI리터러시, 학교수업, 교육자료, education, classroom, elementary school">
+<meta name="application-name" content="알고리즘 넌 누구니 - 초등학교 교육용 게임">
+<meta name="category" content="education">
+<meta name="rating" content="general">
+<meta name="audience" content="elementary school students, grade 5-6">
+<meta name="robots" content="noindex, nofollow">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="알고리즘 넌 누구니">
+<meta name="theme-color" content="#FF0000">
+<meta name="format-detection" content="telephone=no">
+<title>알고리즘, 넌 누구니? - 초등학교 디지털시민교육 수업자료</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#F9F9F9;--surface:#fff;--border:#E5E5E5;
+  --text:#0F0F0F;--text2:#606060;--text3:#909090;
+  --yt:#FF0000;--yt-dark:#CC0000;
+  --green:#00A650;--purple:#7B2FBE;--blue:#065FD4;
+  --shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* ── TITLE ── */
+#titleScreen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#0F0F0F 0%,#282828 100%);padding:2rem;text-align:center;}
+.play-icon{width:88px;height:64px;background:var(--yt);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;
+  box-shadow:0 8px 30px rgba(255,0,0,0.4);}
+.play-icon::after{content:'';width:0;height:0;border-style:solid;border-width:14px 0 14px 22px;border-color:transparent transparent transparent white;margin-left:6px;}
+.tlogo{font-family:'Black Han Sans',sans-serif;font-size:clamp(40px,8.5vw,64px);color:white;line-height:1.3;margin-bottom:0.4em;}
+.tlogo span{color:var(--yt);}
+.tsub{font-size:19px;color:rgba(255,255,255,0.85);margin-bottom:2rem;font-weight:500;}
+.tbadges{display:flex;gap:8px;justify-content:center;margin-bottom:2rem;flex-wrap:wrap;}
+.tb{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:8px 18px;color:white;font-size:15.5px;font-weight:600;}
+.tbtn{background:var(--yt);color:white;border:none;border-radius:50px;padding:19px 58px;font-size:22px;font-weight:900;cursor:pointer;
+  font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;box-shadow:0 6px 24px rgba(255,0,0,0.4);transition:all 0.2s;}
+.tbtn:hover{transform:translateY(-3px) scale(1.02);background:var(--yt-dark);}
+
+/* ── GAME ── */
+#gameScreen{display:none;max-width:900px;margin:0 auto;padding-bottom:2rem;}
+
+/* YouTube-style top nav */
+.ytnav{background:white;border-bottom:1px solid var(--border);padding:0.7rem 1.1rem;display:flex;align-items:center;gap:14px;
+  position:sticky;top:0;z-index:50;}
+.ytnav-logo{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.ytnav-play{width:28px;height:20px;background:var(--yt);border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.ytnav-play::after{content:'';width:0;height:0;border-style:solid;border-width:5px 0 5px 8px;border-color:transparent transparent transparent white;margin-left:2px;}
+.ytnav-title{font-size:15px;font-weight:900;letter-spacing:-0.3px;}
+.ytnav-search{flex:1;max-width:340px;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:14.5px;color:var(--text3);}
+.ytnav-stats{margin-left:auto;display:flex;gap:6px;}
+.navstat{background:var(--bg);border-radius:10px;padding:6px 13px;font-size:13px;color:var(--text2);text-align:center;}
+.navstat strong{display:block;font-size:19px;font-weight:900;color:var(--text);}
+.timer-stat{transition:all 0.2s;background:#E3F2FD;}
+.timer-stat strong{color:#1565C0;}
+.timer-stat.warn{background:#FFF3E0;}
+.timer-stat.warn strong{color:#E65100;}
+.timer-stat.danger{background:#FFEBEE;animation:timerPulse 0.6s ease-in-out infinite;}
+.timer-stat.danger strong{color:#C62828;}
+@keyframes timerPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+
+.gwrap{padding:0.9rem 1.1rem;}
+
+/* Message */
+.msg{border-radius:12px;padding:0.9rem 1.15rem;font-size:16px;font-weight:600;line-height:1.65;margin-bottom:0.85rem;
+  display:flex;gap:8px;align-items:center;animation:msgIn 0.3s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+.m-info{background:#E8F0FE;border:1.5px solid #A8C7FA;color:#0B57D0;}
+.m-ok{background:#E6F4EA;border:1.5px solid #81C995;color:#0D652D;}
+.m-warn{background:#FEF7E0;border:1.5px solid #FDD663;color:#B06000;}
+
+/* Criterion selector — YouTube filter chip style */
+.crit-panel{background:white;border-radius:12px;padding:1rem 1.15rem;margin-bottom:0.85rem;box-shadow:var(--shadow);}
+.crit-label{font-size:15.5px;font-weight:700;color:var(--text2);letter-spacing:0.3px;margin-bottom:0.75rem;}
+.chip-row{display:flex;gap:9px;flex-wrap:wrap;}
+.chip{padding:12px 24px;border-radius:24px;border:1.5px solid var(--border);background:var(--bg);font-size:17px;font-weight:700;
+  cursor:pointer;font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:var(--text);transition:all 0.15s;}
+.chip:hover{background:#EFEFEF;}
+.chip.on{background:var(--text);color:white;border-color:var(--text);}
+
+/* Feed panel */
+.feed-panel{background:white;border-radius:12px;padding:1.1rem 1.2rem;margin-bottom:0.85rem;box-shadow:var(--shadow);}
+.feed-label{font-size:15.5px;font-weight:700;color:var(--text2);letter-spacing:0.3px;margin-bottom:0.8rem;}
+.feed-scroll{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px;align-items:flex-start;min-height:365px;}
+.feed-scroll::-webkit-scrollbar{height:7px;}
+.feed-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+
+.arrow-col{flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;margin-top:110px;}
+.arrow{font-size:20px;color:var(--text3);font-weight:900;}
+.conn-tag{font-size:12.5px;font-weight:800;padding:5px 11px;border-radius:11px;white-space:nowrap;text-align:center;line-height:1.5;}
+.conn-genre{background:#FFF3E0;color:#B45309;border:1px solid #FDBA74;}
+.conn-crit{background:#EDE0FF;color:#6B21A8;border:1px solid #C084FC;}
+.conn-first{background:#E6F4EA;color:#0D652D;border:1px solid #81C995;}
+
+.next-slot{flex-shrink:0;width:240px;height:365px;border:2.5px dashed #BDBDBD;border-radius:14px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  color:var(--text3);font-size:16px;font-weight:700;background:#FAFAFA;margin-top:0;}
+.next-slot .q{font-size:34px;}
+
+/* Streak badge */
+.streak-badge{display:inline-flex;align-items:center;gap:4px;background:#FFF3E0;border:1.5px solid #FFCC80;color:#E65100;
+  font-size:15px;font-weight:800;padding:6px 15px;border-radius:16px;margin-left:6px;}
+
+/* Hint */
+.hint-panel{background:linear-gradient(135deg,#F3E8FF,#EDE0FF);border:1.5px solid #C084FC;border-radius:12px;
+  padding:1rem 1.15rem;margin-bottom:0.85rem;font-size:14.5px;color:#6B21A8;line-height:1.85;}
+.hint-panel b{color:#4C1D95;}
+.hint-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+
+/* Hand */
+.hand-panel{background:white;border-radius:12px;padding:1.1rem 1.2rem;box-shadow:var(--shadow);}
+.hand-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.8rem;flex-wrap:wrap;gap:8px;}
+.hand-label{font-size:15.5px;font-weight:700;color:var(--text2);letter-spacing:0.3px;}
+.hand-cards{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+
+/* ── VIDEO CARD (YouTube style, 확대) ── */
+.vcard{width:240px;flex-shrink:0;border-radius:14px;overflow:hidden;cursor:pointer;transition:all 0.2s;position:relative;background:white;
+  border:1px solid var(--border);}
+.vcard.playable{box-shadow:0 0 0 4px var(--green),0 8px 22px rgba(0,166,80,0.3);animation:bounce 1.7s ease-in-out infinite;border-color:transparent;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+.vcard.playable:hover{transform:translateY(-10px) scale(1.03);}
+.vcard.locked{opacity:0.4;cursor:not-allowed;filter:grayscale(0.55);}
+.vcard.instack{box-shadow:0 0 0 4px var(--yt);border-color:transparent;}
+.vcard.just-drawn{animation:justDrawn 1.6s ease;}
+@keyframes justDrawn{
+  0%{box-shadow:0 0 0 6px #FFD60A,0 8px 24px rgba(255,214,10,0.5);transform:scale(1.08);}
+  60%{box-shadow:0 0 0 4px #FFD60A,0 8px 24px rgba(255,214,10,0.3);}
+  100%{box-shadow:none;transform:scale(1);}
+}
+
+.play-tag{position:absolute;top:8px;right:8px;background:var(--green);color:white;font-size:13px;font-weight:900;
+  padding:5px 12px;border-radius:13px;z-index:6;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
+
+.vthumb{aspect-ratio:16/9;position:relative;display:flex;align-items:center;justify-content:center;font-size:46px;}
+.vdur{position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,0.82);color:white;font-size:14px;font-weight:700;
+  padding:3px 9px;border-radius:6px;}
+.vgenre-badge{position:absolute;top:7px;left:7px;font-size:16px;font-weight:900;padding:6px 13px;border-radius:22px;
+  background:rgba(255,255,255,0.95);color:#1a1a1a;box-shadow:0 2px 8px rgba(0,0,0,0.25);display:flex;align-items:center;gap:4px;}
+
+.vinfo{display:flex;flex-direction:column;gap:0;padding:10px 12px 12px;}
+.vhead-row{display:flex;gap:8px;margin-bottom:8px;}
+.vavatar{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;margin-top:1px;}
+.vmeta{flex:1;min-width:0;}
+.vtitle{font-size:16.5px;font-weight:700;line-height:1.4;color:var(--text);margin-bottom:3px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.vchannel{font-size:14px;color:var(--text2);font-weight:600;}
+
+.vstat-grid{display:flex;flex-direction:column;gap:9px;background:var(--bg);border-radius:9px;padding:10px 12px;}
+.vstat{display:flex;flex-direction:column;gap:2px;}
+.vstat .vs-label{font-size:12.5px;color:var(--text3);font-weight:700;display:flex;align-items:center;gap:4px;white-space:normal;word-break:keep-all;}
+.vstat .vs-val{font-size:16.5px;color:var(--text);font-weight:800;white-space:normal;word-break:keep-all;line-height:1.3;}
+
+/* genre thumb colors */
+.g-요리{background:linear-gradient(135deg,#FF6B6B,#FF8E53);}
+.g-동물{background:linear-gradient(135deg,#27AE60,#1E8449);}
+.g-음악{background:linear-gradient(135deg,#FF3CA0,#C0228B);}
+.g-스포츠{background:linear-gradient(135deg,#2ECC71,#0E7A45);}
+.g-게임{background:linear-gradient(135deg,#7B2FBE,#4A148C);}
+.g-예능{background:linear-gradient(135deg,#F39C12,#D68910);}
+.av-요리{background:#FF6B6B;color:white;} .av-동물{background:#27AE60;color:white;}
+.av-음악{background:#FF3CA0;color:white;} .av-스포츠{background:#2ECC71;color:white;}
+.av-게임{background:#7B2FBE;color:white;} .av-예능{background:#F39C12;color:white;}
+
+/* Action row */
+.act-row{display:flex;gap:8px;margin-top:0.9rem;justify-content:center;flex-wrap:wrap;}
+.btn{padding:13px 26px;border-radius:22px;border:none;font-size:15.5px;font-weight:700;cursor:pointer;
+  font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;transition:all 0.2s;}
+.btn:active{transform:scale(0.96);}
+.btn-draw{background:var(--blue);color:white;}
+.btn-draw:hover{background:#0546a8;}
+.btn-refresh{background:var(--purple);color:white;}
+.btn-refresh:hover{background:#5e2191;}
+.btn-refresh:disabled{background:#BDBDBD;cursor:not-allowed;}
+
+/* ── MODALS ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:200;padding:1rem;}
+.overlay.show{display:flex;}
+.modal{background:white;border-radius:22px;padding:2.2rem 2.1rem;max-width:580px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+.micon{font-size:48px;margin-bottom:0.4rem;}
+.mtitle{font-family:'Black Han Sans',sans-serif;font-size:23px;margin-bottom:0.3rem;}
+.mtitle-huge{font-size:69px !important;line-height:1.15;margin-bottom:0.6rem !important;}
+.mdesc{font-size:16px;color:var(--text2);line-height:1.9;margin-bottom:1.3rem;text-align:left;}
+.mbtn{width:100%;padding:14px;background:var(--yt);color:white;border:none;border-radius:12px;
+  font-size:15px;font-weight:900;cursor:pointer;font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;transition:all 0.2s;}
+.mbtn:hover{background:var(--yt-dark);}
+
+/* Tutorial modal */
+.tuto-dots{display:flex;gap:6px;justify-content:center;margin-bottom:1.2rem;}
+.tuto-body{font-size:19px;line-height:2.0;color:var(--text2);min-height:250px;text-align:left;font-weight:500;}
+.tuto-body b{color:var(--text);}
+.tuto-box{background:var(--bg);border-radius:12px;padding:18px 20px;line-height:2.2;margin:14px 0;font-size:18.5px;}
+.tuto-nav{display:flex;gap:8px;margin-top:1.2rem;}
+.tuto-nav .btn{flex:1;border-radius:10px;font-size:15px;padding:13px 18px;}
+.btn-prev{background:var(--bg);color:var(--text2);border:1px solid var(--border) !important;}
+.btn-next{background:var(--yt);color:white;flex:2 !important;}
+</style>
+</head>
+<body>
+
+<!-- TITLE -->
+<div id="titleScreen">
+  <div class="play-icon"></div>
+  <div class="tlogo">알고리즘,<br><span>넌 누구니?</span></div>
+  <div class="tsub">추천 알고리즘이 되어 영상 피드를 완성해보세요 📺</div>
+  <div class="tbadges">
+    <span class="tb">👤 혼자서도 OK</span>
+    <span class="tb">🃏 카드 6장 완성</span>
+    <span class="tb">🔗 4가지 연결 기준</span>
+  </div>
+  <button class="tbtn" id="startBtn">게임 시작 ▶</button>
+</div>
+
+<!-- TUTORIAL MODAL -->
+<div class="overlay" id="tutoOverlay">
+  <div class="modal">
+    <div style="font-family:'Black Han Sans',sans-serif;font-size:29px;text-align:center;margin-bottom:0.4rem;" id="tutoTitle"></div>
+    <div class="tuto-dots" id="tutoDots"></div>
+    <div class="tuto-body" id="tutoBody"></div>
+    <div class="tuto-nav">
+      <button class="btn btn-prev" id="tutoPrev">← 이전</button>
+      <button class="btn btn-next" id="tutoNext">다음 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- GAME -->
+<div id="gameScreen">
+  <div class="ytnav">
+    <div class="ytnav-logo">
+      <div class="ytnav-play"></div>
+      <span class="ytnav-title">알고리즘, 넌 누구니?</span>
+    </div>
+    <div class="ytnav-search">🔍 추천 피드 만드는 중...</div>
+    <div class="ytnav-stats">
+      <div class="navstat timer-stat" id="timerStat">⏱ 남은시간<strong><span id="sTimer">60</span>초</strong></div>
+      <div class="navstat">완성<strong id="sDone">0</strong>/6</div>
+      <div class="navstat">카드목표<strong>6</strong></div>
+      <div class="navstat">진행<strong id="sChain">0</strong></div>
+      <div class="navstat">덱<strong id="sDeck">0</strong></div>
+    </div>
+  </div>
+
+  <div class="gwrap">
+    <div id="msgArea"></div>
+
+    <!-- Criterion selector -->
+    <div class="crit-panel">
+      <div class="crit-label">🔗 다른 장르 카드를 연결할 기준을 골라보세요 (같은 장르는 기준 없이 3장까지 연속 가능!)</div>
+      <div class="chip-row" id="critRow">
+        <button class="chip on" data-c="views">📊 조회수</button>
+        <button class="chip" data-c="subs">👥 구독자수</button>
+        <button class="chip" data-c="duration">⏱ 재생시간</button>
+        <button class="chip" data-c="date">📅 게시일</button>
+      </div>
+    </div>
+
+    <!-- Feed -->
+    <div class="feed-panel">
+      <div class="feed-label">📺 나의 추천 피드 <span id="feedGoalText">(카드 6장을 채워보세요!)</span></div>
+      <div class="feed-scroll" id="feedScroll"></div>
+    </div>
+
+    <!-- Hint -->
+    <div class="hint-panel" id="hintPanel"></div>
+
+    <!-- Hand -->
+    <div class="hand-panel">
+      <div class="hand-head">
+        <div class="hand-label">🖐 추천 후보 영상 — 반짝이는 카드를 클릭하세요!</div>
+      </div>
+      <div class="hand-cards" id="handCards"></div>
+      <div class="act-row">
+        <button class="btn btn-draw" id="drawBtn">🃏 낼 카드가 없어요! 한 장 뽑기</button>
+        <button class="btn btn-refresh" id="refreshBtn">🔄 새로고침 (<span id="refreshLeft">1</span>번 남음)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="overlay" id="resultOverlay">
+  <div class="modal">
+    <div class="micon" id="rIcon">🏆</div>
+    <div class="mtitle" id="rTitle" style="text-align:center;">성공!</div>
+    <div class="mdesc" id="rDesc"></div>
+    <button class="mbtn" id="againBtn">다시 하기 🔄</button>
+  </div>
+</div>
+
+<!-- ROUND START -->
+<div class="overlay" id="roundStartOverlay">
+  <div class="modal">
+    <div class="micon">🎬</div>
+    <div class="mtitle" id="roundStartTitle">라운드 준비 완료!</div>
+    <div class="mdesc" style="text-align:center;">카드 6장이 준비됐어요!<br>시작 버튼을 누르면 <b style="color:var(--yt);">60초 타이머</b>가 시작돼요.<br>시간 안에 카드 6장을 연결해보세요!</div>
+    <button class="mbtn" id="roundStartBtn">▶ 라운드 시작!</button>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+// ── 튜토리얼 4단계 ──
+const TUTO=[
+  {
+    title:"🎯 게임 목표",
+    body:`<div style="text-align:center;font-size:38px;margin:6px 0 12px;">🧑‍💻➡️📺</div>
+      여러분은 이제부터 <b>유튜브 추천 알고리즘</b>이 되어봐요!<br><br>
+      영상 카드 <b>6장</b>을 규칙에 맞게 연결해서<br>
+      나만의 <b>추천 피드</b>를 완성하면 성공이에요.<br>
+      <span style="font-size:0.85em;color:var(--text3);">(단, 라운드별 시간은 <b style="color:var(--yt);">1분</b>이에요)</span><br><br>
+      💡 카드를 연결하다 보면 알고리즘이 영상을<br>왜 그렇게 추천하는지 알게 될 거예요!`
+  },
+  {
+    title:"🃏 카드 알아보기",
+    body:`모든 영상 카드에는 이런 정보가 있어요.<br>
+      <div class="tuto-box">
+      🏷️ <b>장르</b> — 요리·동물·음악·스포츠·게임·예능<br>
+      📊 <b>조회수</b> — 얼마나 많이 봤나요?<br>
+      👥 <b>구독자수</b> — 채널 구독자가 몇 명?<br>
+      ⏱ <b>재생시간</b> — 영상이 몇 분인가요?<br>
+      📅 <b>게시일</b> — 언제 올라왔나요?</div>
+      이 정보들을 보고 카드를 <b>연결</b>할 수 있어요!`
+  },
+  {
+    title:"🔗 카드 연결 규칙",
+    body:`카드를 연결하는 방법은 <b>2가지</b>예요!<br>
+      <div class="tuto-box">
+      ① <b style="color:var(--yt);">같은 장르</b> 카드는<br>
+      &nbsp;&nbsp;&nbsp;기준 상관없이 <b>3장까지 연속</b>으로 낼 수 있어요<br><br>
+      ② <b style="color:var(--purple);">다른 장르</b> 카드는<br>
+      &nbsp;&nbsp;&nbsp;<b>1장만</b> 연결할 수 있어요.<br>
+      &nbsp;&nbsp;&nbsp;단, 내가 선택한 기준에 맞아야 해요</div>
+      다른 장르 카드를 연결할 때는<br>
+      기준(조회수, 구독자수, 재생시간, 게시일)을 선택해요.<br><br>
+      *선택한 카드가 이전 카드보다<br>해당 기준의 숫자가 적으면 안돼요.`
+  },
+  {
+    title:"🎮 게임 방법",
+    body:`✅ 기준에 따라 낼 수 있는 카드는 <b style="color:var(--green);">초록색으로 반짝</b>여요! 반짝이는 카드 중에 하나를 선택하면 돼요.<br><br>
+      🃏 낼 카드가 없을 때는 랜덤으로 1장의 카드를 더 얻을 수 있어요. 추가 카드는 게임 전체에서 총 <b style="color:var(--yt);">10장</b> 쓸 수 있어요.<br><br>
+      🔄 <b>새로고침</b>을 누르면 다음 카드를 기준 규칙 상관없이 아무거나 낼 수 있어요! 단, 라운드 별로 <b style="color:var(--yt);">1번</b> 쓸 수 있어요. 마치 유튜브에서 새로고침하면 완전히 다른 영상이 뜨는 것과 같아요!<br><br>
+      📱 <b style="color:var(--yt);">준비됐나요? 시작해봐요! 🚀</b>`
+  },
+];
+let tutoStep=0;
+
+function renderTuto(){
+  document.getElementById('tutoTitle').textContent=TUTO[tutoStep].title;
+  document.getElementById('tutoBody').innerHTML=TUTO[tutoStep].body;
+  document.getElementById('tutoDots').innerHTML=TUTO.map((_,i)=>
+    `<div style="width:${i===tutoStep?'20px':'7px'};height:7px;border-radius:4px;background:${i===tutoStep?'var(--yt)':'var(--border)'};transition:all 0.3s;"></div>`
+  ).join('');
+  document.getElementById('tutoPrev').style.visibility=tutoStep===0?'hidden':'visible';
+  document.getElementById('tutoNext').textContent = tutoStep===TUTO.length-1 ? '게임 시작! 🚀' : '다음 →';
+}
+document.getElementById('tutoPrev').addEventListener('click',()=>{ if(tutoStep>0){tutoStep--;renderTuto();} });
+document.getElementById('tutoNext').addEventListener('click',()=>{
+  if(tutoStep<TUTO.length-1){ tutoStep++; renderTuto(); }
+  else{
+    document.getElementById('tutoOverlay').classList.remove('show');
+    document.getElementById('titleScreen').style.display='none';
+    document.getElementById('gameScreen').style.display='block';
+    prepareRound(true);
+  }
+});
+document.getElementById('startBtn').addEventListener('click',()=>{
+  tutoStep=0; renderTuto();
+  document.getElementById('tutoOverlay').classList.add('show');
+});
+
+// ── 카드 데이터 ──
+const GENRES=[
+  {id:'요리', e:'🍳'},{id:'동물', e:'🐶'},{id:'음악', e:'🎵'},
+  {id:'스포츠', e:'⚽'},{id:'게임', e:'🎮'},{id:'예능', e:'😂'},
+];
+const CH={
+  '요리':[['맛있는라면','라면 5분 완성 레시피'],['떡볶이왕','학교 앞 떡볶이 만들기'],['초코쿠키샵','초코쿠키 굽는 법'],['김밥천국TV','꼬마김밥 싸기 도전'],['계란요리사','계란말이 완벽 레시피']],
+  '동물':[['멍멍이일상','아기 강아지 첫 산책'],['냥냥펀치','고양이 웃긴 순간 모음'],['동물원친구','판다 뒹굴뒹굴 영상'],['앵무새친구','말하는 앵무새 등장'],['햄스터랜드','햄스터 볼주머니 가득']],
+  '음악':[['댄스가수왕','신나는 K-POP 댄스'],['피아노천재','피아노 천재 등장'],['노래방킹','노래방 인기곡 모음'],['기타초보','기타 처음 배우기'],['뮤비모음집','인기 뮤직비디오 모음']],
+  '스포츠':[['축구골닷컴','축구 골 모음 하이라이트'],['농구덩크왕','농구 덩크슛 모음'],['수영천재','수영 배우기 기초'],['야구홈런왕','야구 홈런 명장면'],['태권도장','태권도 발차기 기술']],
+  '게임':[['마인크래프트왕','마인크래프트 집짓기'],['로블록스킹','로블록스 탈출맵 도전'],['카트라이더프로','카트라이더 1등 하기'],['게임꿀팁','게임 꿀팁 대방출'],['보드게임클럽','보드게임 대결 한판']],
+  '예능':[['몰카대작전','몰래카메라 대작전'],['챌린지왕','챌린지 도전!'],['퀴즈킹','퀴즈 대결 한판'],['웃긴영상모음','웃긴 영상 모음.zip'],['밸런스게임','밸런스 게임 고민타임']],
+};
+
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function fmtNum(n){ if(n>=10000) return Math.round(n/10000)+'만'; return Math.round(n/1000)+'천'; }
+function fmtDur(s){ const m=Math.floor(s/60), sec=s%60; return m+':'+String(sec).padStart(2,'0'); }
+
+let __globalCardId=1; // 게임 세션 전체에서 카드 id가 절대 겹치지 않도록 하는 전역 카운터
+
+function makeDeck(){
+  const d=[];
+  GENRES.forEach(g=>{
+    CH[g.id].forEach(([ch,title])=>{
+      const daysAgo = rnd(1,300);
+      d.push({
+        id:__globalCardId++, genre:g.id, e:g.e, channel:ch, title,
+        views: rnd(1,99)*10000,
+        subs: rnd(1,500)*10000,
+        duration: rnd(60,1200),
+        daysAgo: daysAgo,
+      });
+    });
+  });
+  for(let i=d.length-1;i>0;i--){ const j=rnd(0,i); [d[i],d[j]]=[d[j],d[i]]; }
+  return d;
+}
+
+// 게임 전체에서 단 10장만 존재하는, "막혔을 때 추가로 뽑는" 카드 더미
+function makeExtraDeck(){
+  const pool=makeDeck(); // 30장 중 무작위로 10장만 뽑아 사용
+  return pool.slice(0,10);
+}
+
+// 기준별 비교 값 (클수록 좋음 / date는 최신일수록 큰 값)
+function statValue(card,crit){
+  if(crit==='views') return card.views;
+  if(crit==='subs')  return card.subs;
+  if(crit==='duration') return card.duration;
+  if(crit==='date') return 1000 - card.daysAgo; // 최신일수록 큰 값
+  return card.views;
+}
+function statDisplay(card,crit){
+  if(crit==='views') return fmtNum(card.views)+'회';
+  if(crit==='subs')  return fmtNum(card.subs)+'명';
+  if(crit==='duration') return fmtDur(card.duration);
+  if(crit==='date') return card.daysAgo+'일 전';
+  return '';
+}
+function statLabel(crit){
+  return {views:'조회수',subs:'구독자수',duration:'재생시간',date:'게시일'}[crit];
+}
+
+// ── 상태 ──
+const GOAL=6;
+const ROUND_SECONDS=60;
+const TOTAL_ROUNDS=6; // 게임 전체 목표: 알고리즘 6개(라운드 6번) 완성하면 게임 클리어
+let deck,hand,chain,streak,crit,refreshLeft,freePlay;
+let extraDeck; // 게임 전체에서 공유되는 10장짜리 추가 카드 더미 (라운드가 바뀌어도 유지됨)
+let timeLeft, timerId, completedCount=0, roundLocked=false, roundStarted=false, roundNum=0, justCleared=false;
+
+function startTimer(){
+  clearInterval(timerId);
+  timeLeft=ROUND_SECONDS;
+  updateTimerUI();
+  timerId=setInterval(()=>{
+    timeLeft--;
+    updateTimerUI();
+    if(timeLeft<=0){
+      clearInterval(timerId);
+      onTimeUp();
+    }
+  },1000);
+}
+
+function updateTimerUI(){
+  const el=document.getElementById('sTimer');
+  const box=document.getElementById('timerStat');
+  if(el) el.textContent=timeLeft;
+  if(box){
+    box.classList.remove('warn','danger');
+    if(timeLeft<=10) box.classList.add('danger');
+    else if(timeLeft<=25) box.classList.add('warn');
+  }
+}
+
+function onTimeUp(){
+  roundLocked=true;
+  timeFail();
+}
+
+// 라운드 준비: 카드는 미리 나눠주되, 타이머는 아직 시작하지 않음
+function prepareRound(resetCount){
+  if(resetCount){
+    completedCount=0;
+    roundNum=0;
+    extraDeck=makeExtraDeck(); // 게임 시작할 때 딱 한 번, 10장 생성 (라운드마다 리셋 X)
+    document.getElementById('sDone').textContent=completedCount;
+  }
+  roundNum++;
+  roundLocked=false;
+  roundStarted=false;
+  deck=makeDeck(); // 손패 자동 보충용 — 라운드마다 새로 채워짐 (표시 안 함)
+  chain=[];
+  hand=[];
+  streak=0;
+  crit='views';
+  refreshLeft=1;
+  freePlay=false;
+  timeLeft=ROUND_SECONDS;
+  clearInterval(timerId);
+  for(let i=0;i<6;i++) hand.push(deck.pop());
+  document.querySelectorAll('.chip').forEach(b=>b.classList.toggle('on', b.dataset.c==='views'));
+  updateTimerUI();
+  render();
+  msg('info',`카드 6장이 준비됐어요! 추가로 쓸 수 있는 카드는 ${extraDeck.length}장 남았어요. "라운드 시작" 버튼을 눌러주세요 🎬`);
+  document.getElementById('roundStartTitle').textContent = `${roundNum}/${TOTAL_ROUNDS}번째 라운드 준비 완료!`;
+  document.getElementById('roundStartOverlay').classList.add('show');
+}
+
+// 실제 라운드 시작 (타이머 가동)
+function beginRound(){
+  document.getElementById('roundStartOverlay').classList.remove('show');
+  roundStarted=true;
+  startTimer();
+  render();
+  msg('info','첫 영상을 골라보세요! 첫 카드는 무엇이든 OK예요 👆');
+}
+
+// ── 배치 가능 여부 판정 ──
+function evalPlacement(card){
+  if(chain.length===0) return {ok:true, reason:'first'};
+  if(freePlay) return {ok:true, reason:'free'};
+  const last=chain[chain.length-1];
+  // 같은 장르, streak<3
+  if(card.genre===last.genre && streak<3){
+    return {ok:true, reason:'genre'};
+  }
+  // 기준 충족 시 (장르 무관)
+  if(statValue(card,crit) >= statValue(last,crit)){
+    return {ok:true, reason:'criterion'};
+  }
+  return {ok:false};
+}
+function canPlay(card){ return evalPlacement(card).ok; }
+
+function reasonText(card,reason){
+  if(reason==='first') return '첫 영상 등록! 알고리즘이 여기서부터 추천을 시작해요.';
+  if(reason==='free') return '새로고침 찬스로 자유롭게 연결했어요!';
+  if(reason==='genre') return `같은 [${card.genre}] 장르라서 연결됐어요! (연속 ${streak+1}/3)`;
+  if(reason==='criterion') return `${statLabel(crit)} 기준(${statDisplay(card,crit)})을 만족해서 연결됐어요!`;
+  return '';
+}
+
+// ── 카드 내기 ──
+function play(idx){
+  if(!roundStarted || roundLocked) return;
+  const card=hand[idx];
+  const result=evalPlacement(card);
+  if(!result.ok){
+    msg('warn','앗, 이 카드는 규칙에 안 맞아요! 힌트를 다시 확인해보세요.');
+    return;
+  }
+  const reason=result.reason;
+  // streak 갱신
+  if(reason==='genre') streak++;
+  else streak=1; // first, free, criterion 은 새 streak 시작
+
+  // 연결 이유를 카드에 기록 (피드에 표시용)
+  card.connReason = reason;
+  card.connCrit = crit;
+
+  chain.push(card);
+  hand.splice(idx,1);
+  freePlay=false;
+  // 카드를 내면 손패는 그냥 줄어들기만 함 — 자동 보충 없음!
+  // 새 카드는 오직 "뽑기" 버튼(draw())을 눌렀을 때만 추가됨
+
+  render();
+  msg('ok', reasonText(card,reason));
+
+  if(chain.length>=GOAL){
+    roundLocked=true;
+    clearInterval(timerId);
+    completedCount++;
+    document.getElementById('sDone').textContent=completedCount;
+    setTimeout(()=>roundComplete(),650);
+    return;
+  }
+  if(!hand.some(canPlay) && extraDeck.length===0 && refreshLeft===0){
+    roundLocked=true;
+    clearInterval(timerId);
+    setTimeout(()=>stuckFail(),650);
+  }
+}
+
+function draw(){
+  if(!roundStarted || roundLocked) return;
+  if(extraDeck.length===0){
+    msg('warn','추가 카드를 다 썼어요! 🔄 새로고침을 써보세요!');
+    render();
+    if(!hand.some(canPlay) && refreshLeft===0){ roundLocked=true; clearInterval(timerId); stuckFail(); }
+    return;
+  }
+  const c=extraDeck.pop();
+  c._new = true; // 새로 뽑힌 카드 표시 (하이라이트용)
+  hand.push(c);
+  render();
+  if(canPlay(c)) msg('ok',`오! 방금 뽑은 카드를 낼 수 있어요! (추가 카드 ${extraDeck.length}장 남음) ✨`);
+  else msg('info',`카드를 한 장 뽑았어요! (추가 카드 ${extraDeck.length}장 남음) 계속 없으면 🔄 새로고침을 써봐요!`);
+}
+
+function refresh(){
+  if(!roundStarted || roundLocked) return;
+  if(refreshLeft<=0){ msg('warn','새로고침을 다 썼어요!'); return; }
+  refreshLeft--;
+  freePlay=true;
+  render();
+  msg('ok','🔄 피드를 새로고침했어요! 지금은 아무 카드나 낼 수 있어요!');
+}
+
+function roundComplete(){
+  if(completedCount>=TOTAL_ROUNDS){
+    gameClear();
+    return;
+  }
+  document.getElementById('rIcon').textContent='🏆';
+  document.getElementById('rTitle').classList.remove('mtitle-huge');
+  document.getElementById('rTitle').textContent='알고리즘 완성!';
+  document.getElementById('rDesc').innerHTML =
+    `카드 6장을 연결해서 나만의 추천 피드를 완성했어요!<br>
+     <b style="color:var(--yt);">지금까지 완성한 알고리즘: ${completedCount}개 / ${TOTAL_ROUNDS}개 🎉</b><br><br>
+     💡 방금 여러분이 한 것이 바로 <b>유튜브 알고리즘</b>이 매일 하는 일이에요.<br>
+     비슷한 장르(같은 관심사)나 인기 있는 영상(조회수·구독자수)을 계속 연결해서 추천하는 것!<br><br>
+     그래서 유튜브를 보다 보면 자꾸 비슷한 영상만 나오는 거예요 🫧`;
+  document.getElementById('againBtn').textContent='다음 라운드 준비하기 ▶';
+  document.getElementById('resultOverlay').classList.add('show');
+}
+
+// 게임 전체 클리어 (6개 알고리즘 모두 완성)
+function gameClear(){
+  justCleared=true;
+  document.getElementById('rIcon').textContent='🎊';
+  document.getElementById('rTitle').classList.add('mtitle-huge');
+  document.getElementById('rTitle').textContent='게임 클리어! 축하해요!';
+  document.getElementById('rDesc').innerHTML =
+    `<div style="text-align:center;font-size:15px;">
+    <b style="color:var(--yt);font-size:20px;">알고리즘 ${TOTAL_ROUNDS}개를 모두 완성했어요! 🎉</b><br><br>
+    총 <b>${roundNum}번</b>의 라운드를 진행하며<br>
+    유튜브 추천 알고리즘이 되어봤어요.<br><br>
+    </div>
+    <div class="tuto-box" style="text-align:left;">
+    🧠 <b>오늘 배운 것</b><br>
+    같은 장르(관심사)나 조회수·구독자수 같은<br>
+    숫자가 높은 영상을 계속 연결하다 보면,<br>
+    나도 모르게 <b>비슷한 콘텐츠만 보게 되는 것</b> —<br>
+    이게 바로 유튜브가 매일 하는 추천 알고리즘이에요! 🫧<br><br>
+    다양한 주제의 영상을 일부러 찾아보는 습관이<br>
+    필터 버블에서 벗어나는 방법이 될 수 있어요.
+    </div>`;
+  document.getElementById('againBtn').textContent='처음 화면으로 돌아가기 🏠';
+  document.getElementById('resultOverlay').classList.add('show');
+}
+
+// 시간 초과로 실패
+function timeFail(){
+  document.getElementById('rIcon').textContent='⏰';
+  document.getElementById('rTitle').classList.remove('mtitle-huge');
+  document.getElementById('rTitle').textContent='시간 초과! 실패했어요';
+  document.getElementById('rDesc').innerHTML =
+    `1분 안에 완성하지 못했어요.<br>카드 <b>${chain.length}장</b>까지 연결했었어요.<br><br>
+     <b style="color:var(--yt);">지금까지 완성한 알고리즘: ${completedCount}개</b><br><br>
+     💡 연결 기준을 더 빨리 바꿔가며 다시 도전해봐요!`;
+  document.getElementById('againBtn').textContent='다시 도전하기 🔄';
+  document.getElementById('resultOverlay').classList.add('show');
+}
+
+// 낼 카드도 덱도 새로고침도 없어서 실패
+function stuckFail(){
+  document.getElementById('rIcon').textContent='😅';
+  document.getElementById('rTitle').classList.remove('mtitle-huge');
+  document.getElementById('rTitle').textContent='더 이상 카드가 없어요!';
+  document.getElementById('rDesc').innerHTML =
+    `카드 <b>${chain.length}장</b>까지 연결했어요!<br>더 이상 이을 카드가 없네요.<br><br>
+     <b style="color:var(--yt);">지금까지 완성한 알고리즘: ${completedCount}개</b><br><br>
+     💡 괜찮아요! 연결 기준을 바꿔가며 다시 도전해봐요.`;
+  document.getElementById('againBtn').textContent='다시 도전하기 🔄';
+  document.getElementById('resultOverlay').classList.add('show');
+}
+
+// ── 렌더 ──
+const GENRE_NAME={요리:'🍳 요리',동물:'🐶 동물',음악:'🎵 음악',스포츠:'⚽ 스포츠',게임:'🎮 게임',예능:'😂 예능'};
+
+function avatarInitial(ch){ return ch.charAt(0); }
+
+function cardHTML(c){
+  return `<div class="vthumb g-${c.genre}">
+      <span>${c.e}</span>
+      <span class="vdur">${fmtDur(c.duration)}</span>
+      <span class="vgenre-badge">${GENRE_NAME[c.genre]}</span>
+    </div>
+    <div class="vinfo">
+      <div class="vhead-row">
+        <div class="vavatar av-${c.genre}">${avatarInitial(c.channel)}</div>
+        <div class="vmeta">
+          <div class="vtitle">${c.title}</div>
+          <div class="vchannel">${c.channel}</div>
+        </div>
+      </div>
+      <div class="vstat-grid">
+        <div class="vstat"><span class="vs-label">📊 조회수</span><span class="vs-val">${fmtNum(c.views)}회</span></div>
+        <div class="vstat"><span class="vs-label">👥 구독자수</span><span class="vs-val">${fmtNum(c.subs)}명</span></div>
+        <div class="vstat"><span class="vs-label">⏱ 재생시간</span><span class="vs-val">${fmtDur(c.duration)}</span></div>
+        <div class="vstat"><span class="vs-label">📅 게시일</span><span class="vs-val">${c.daysAgo}일 전</span></div>
+      </div>
+    </div>`;
+}
+
+function connTagHTML(reason,card){
+  if(reason==='first') return `<div class="conn-tag conn-first">🎬 시작 카드</div>`;
+  if(reason==='free') return `<div class="conn-tag conn-crit">🔄 새로고침</div>`;
+  if(reason==='genre') return `<div class="conn-tag conn-genre">🔥 같은 장르</div>`;
+  if(reason==='criterion') return `<div class="conn-tag conn-crit">📈 ${statLabel(card.connCrit)} 조건</div>`;
+  return '';
+}
+
+function render(){
+  document.getElementById('sChain').textContent=chain.length;
+  document.getElementById('sDeck').textContent=extraDeck.length;
+
+  // feed
+  const fs=document.getElementById('feedScroll');
+  fs.innerHTML='';
+  chain.forEach((c,i)=>{
+    if(i>0){
+      const col=document.createElement('div'); col.className='arrow-col';
+      col.innerHTML='<span class="arrow">→</span>'+connTagHTML(c.connReason,c);
+      fs.appendChild(col);
+    }
+    const el=document.createElement('div');
+    el.className='vcard'+(i===chain.length-1?' instack':'');
+    el.innerHTML=cardHTML(c);
+    fs.appendChild(el);
+  });
+  if(chain.length<GOAL){
+    if(chain.length>0){
+      const col=document.createElement('div'); col.className='arrow-col';
+      col.innerHTML='<span class="arrow">→</span>';
+      fs.appendChild(col);
+    }
+    const slot=document.createElement('div');
+    slot.className='next-slot';
+    slot.innerHTML = chain.length===0
+      ? '<span class="q">👆</span><span>카드를 골라주세요!</span>'
+      : '<span class="q">❓</span><span>다음 영상은?</span>';
+    fs.appendChild(slot);
+  }
+  fs.scrollLeft=fs.scrollWidth;
+
+  document.getElementById('feedGoalText').textContent =
+    chain.length===0 ? '(첫 영상을 골라보세요!)' : `(${chain.length}/6 완성! 계속 이어가요)`;
+
+  // hint
+  const hintEl=document.getElementById('hintPanel');
+  if(chain.length===0){
+    hintEl.innerHTML='💡 <b>첫 영상은 아무거나 골라도 OK!</b> 클릭해서 피드를 시작해봐요.';
+  } else if(freePlay){
+    hintEl.innerHTML='🔄 <b>새로고침 찬스!</b> 지금은 아무 카드나 낼 수 있어요!';
+  } else {
+    const last=chain[chain.length-1];
+    hintEl.innerHTML=`
+      <div class="hint-row">
+        <span>💡 마지막 카드: <b>[${last.genre}]</b> · ${statLabel(crit)} <b>${statDisplay(last,crit)}</b></span>
+        <span class="streak-badge">🔥 같은 장르 연속 ${streak}/3</span>
+      </div>
+      <div style="margin-top:4px;">
+      → <b>${last.genre} 카드</b>(3장 미만 연속 시)이거나,<br>
+      → <b>${statLabel(crit)}가 ${statDisplay(last,crit)} 이상</b>인 다른 장르 카드를 낼 수 있어요!</div>`;
+  }
+
+  // hand — 카드 구성이 실제로 바뀌었을 때만 새로 그리고,
+  // 기준(연결조건) 변경처럼 카드 목록 자체는 그대로인 경우엔
+  // 기존 카드 DOM을 그대로 두고 낼 수 있는지 표시만 갱신한다 (깜빡임/변동 방지)
+  const hc=document.getElementById('handCards');
+  const currentIds = hand.map(c=>String(c.id));
+  const existingEls = Array.from(hc.children);
+  const existingIds = existingEls.map(el=>el.dataset.id);
+  const sameSet = existingIds.length===currentIds.length && existingIds.every((id,i)=>id===currentIds[i]);
+
+  if(sameSet){
+    // 카드 목록은 그대로 — 낼 수 있는지 여부만 갱신 (DOM 재생성 없음)
+    hand.forEach((c,i)=>{
+      const el=existingEls[i];
+      const ok = roundStarted && canPlay(c);
+      const newClass='vcard '+(ok?'playable':(roundStarted?'locked':''));
+      if(el.className!==newClass) el.className=newClass;
+      const tagEl=el.querySelector('.play-tag');
+      if(ok && !tagEl){
+        el.insertAdjacentHTML('afterbegin','<span class="play-tag">낼 수 있어요!</span>');
+      } else if(!ok && tagEl){
+        tagEl.remove();
+      }
+    });
+  } else {
+    // 카드 목록이 실제로 바뀜(냈거나 새로 뽑음) — 새로 그림
+    hc.innerHTML='';
+    hand.forEach((c,i)=>{
+      const el=document.createElement('div');
+      el.dataset.id=String(c.id);
+      const ok = roundStarted && canPlay(c);
+      el.className='vcard '+(ok?'playable':(roundStarted?'locked':''))+(c._new?' just-drawn':'');
+      el.innerHTML=(ok?'<span class="play-tag">낼 수 있어요!</span>':'')+cardHTML(c);
+      el.onclick=()=>play(i);
+      hc.appendChild(el);
+      if(c._new){
+        setTimeout(()=>{ el.classList.remove('just-drawn'); },1600);
+        delete c._new;
+        setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'end'}),50);
+      }
+    });
+  }
+
+  // 클릭 핸들러는 카드가 그대로 유지된 경우에도 최신 index를 참조하도록 다시 연결
+  if(sameSet){
+    Array.from(hc.children).forEach((el,i)=>{
+      el.onclick=()=>play(i);
+    });
+  }
+
+  // buttons
+  const anyPlayable=hand.some(canPlay);
+  const drawBtn=document.getElementById('drawBtn');
+  drawBtn.style.display = (anyPlayable || extraDeck.length===0) ? 'none' : 'inline-block';
+  const rBtn=document.getElementById('refreshBtn');
+  document.getElementById('refreshLeft').textContent=refreshLeft;
+  rBtn.disabled = refreshLeft<=0 || freePlay;
+  rBtn.style.display = anyPlayable ? 'none':'inline-block';
+}
+
+function msg(type,txt){
+  const map={info:['m-info','👉'],ok:['m-ok','🎉'],warn:['m-warn','⚠️']};
+  const [cls,icon]=map[type];
+  document.getElementById('msgArea').innerHTML=`<div class="msg ${cls}"><span style="font-size:17px;">${icon}</span><span>${txt}</span></div>`;
+}
+
+// ── 이벤트 ──
+document.getElementById('critRow').addEventListener('click',(e)=>{
+  const btn=e.target.closest('.chip');
+  if(!btn) return;
+  crit=btn.dataset.c;
+  document.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+  msg('info',`연결 기준을 [${statLabel(crit)}]로 바꿨어요!`);
+});
+document.getElementById('drawBtn').addEventListener('click',draw);
+document.getElementById('refreshBtn').addEventListener('click',refresh);
+document.getElementById('againBtn').addEventListener('click',()=>{
+  document.getElementById('resultOverlay').classList.remove('show');
+  if(justCleared){
+    justCleared=false;
+    clearInterval(timerId);
+    document.getElementById('gameScreen').style.display='none';
+    document.getElementById('titleScreen').style.display='flex';
+  } else {
+    prepareRound(false);
+  }
+});
+document.getElementById('roundStartBtn').addEventListener('click',beginRound);
+
+})();
+</script>
+</body>
+</html>
