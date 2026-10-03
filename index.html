@@ -55,10 +55,10 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 .play-icon::after{content:'';width:0;height:0;border-style:solid;border-width:14px 0 14px 22px;border-color:transparent transparent transparent white;margin-left:6px;}
 .tlogo{font-family:'Black Han Sans',sans-serif;font-size:clamp(40px,8.5vw,64px);color:white;line-height:1.3;margin-bottom:0.4em;}
 .tlogo span{color:var(--yt);}
-.tsub{font-size:22px;color:rgba(255,255,255,0.85);margin-bottom:2rem;font-weight:500;}
+.tsub{font-size:28px;color:rgba(255,255,255,0.85);margin-bottom:2rem;font-weight:500;}
 .tbadges{display:flex;gap:8px;justify-content:center;margin-bottom:2rem;flex-wrap:wrap;}
-.tb{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:9px 20px;color:white;font-size:18px;font-weight:600;}
-.tbtn{background:var(--yt);color:white;border:none;border-radius:50px;padding:20px 60px;font-size:25px;font-weight:900;cursor:pointer;
+.tb{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:10px 22px;color:white;font-size:22px;font-weight:600;}
+.tbtn{background:var(--yt);color:white;border:none;border-radius:50px;padding:22px 64px;font-size:30px;font-weight:900;cursor:pointer;
   font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;box-shadow:0 6px 24px rgba(255,0,0,0.4);transition:all 0.2s;}
 .tbtn:hover{transform:translateY(-3px) scale(1.02);background:var(--yt-dark);}
 
@@ -72,25 +72,25 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 .ytnav-logo{display:flex;align-items:center;gap:6px;flex-shrink:0;}
 .ytnav-play{width:28px;height:20px;background:var(--yt);border-radius:6px;display:flex;align-items:center;justify-content:center;}
 .ytnav-play::after{content:'';width:0;height:0;border-style:solid;border-width:5px 0 5px 8px;border-color:transparent transparent transparent white;margin-left:2px;}
-.ytnav-title{font-size:22px;font-weight:900;letter-spacing:-0.3px;}
+.ytnav-title{font-size:27px;font-weight:900;letter-spacing:-0.3px;}
 .ytnav-stats{display:flex;gap:12px;flex:2;}
-.navstat{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:12px 10px;font-size:26px;font-weight:700;color:var(--text2);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;word-break:keep-all;}
-.navstat strong{display:block;font-size:38px;font-weight:900;color:var(--text);margin-top:4px;}
+.navstat{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:12px 10px;font-size:32px;font-weight:700;color:var(--text2);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;word-break:keep-all;}
+.navstat strong{display:block;font-size:46px;font-weight:900;color:var(--text);margin-top:4px;}
 
 /* 전적 점수판 카드 */
 .score-card{flex:1.3;display:flex;align-items:center;justify-content:center;gap:22px;background:linear-gradient(135deg,#FAFAFC,#F3F1FA);
   border:1.5px solid #D8D3EC;border-radius:18px;padding:10px 20px;box-shadow:0 2px 8px rgba(123,47,190,0.08);}
 .score-side{display:flex;flex-direction:column;align-items:center;gap:0;}
-.score-emoji{font-size:36px;line-height:1.1;}
-.score-label{font-size:26px;font-weight:800;color:var(--text2);letter-spacing:0.3px;margin-top:1px;}
-.score-num{font-size:42px;font-weight:900;color:var(--text);line-height:1.1;margin-top:2px;}
+.score-emoji{font-size:42px;line-height:1.1;}
+.score-label{font-size:32px;font-weight:800;color:var(--text2);letter-spacing:0.3px;margin-top:1px;}
+.score-num{font-size:50px;font-weight:900;color:var(--text);line-height:1.1;margin-top:2px;}
 .score-side.me .score-num{color:var(--yt);}
 .score-side.cpu .score-num{color:var(--purple);}
-.score-colon{font-size:29px;font-weight:900;color:#C7C2DE;}
+.score-colon{font-size:34px;font-weight:900;color:#C7C2DE;}
 
 /* 타이머 알약 */
 .timer-pill{flex:1;display:flex;align-items:center;justify-content:center;gap:10px;background:#F3EEFF;border:2.5px solid var(--purple);
-  border-radius:18px;padding:11px 20px;font-size:38px;font-weight:900;color:var(--purple);transition:all 0.2s;box-shadow:0 2px 8px rgba(123,47,190,0.12);}
+  border-radius:18px;padding:12px 22px;font-size:46px;font-weight:900;color:var(--purple);transition:all 0.2s;box-shadow:0 2px 8px rgba(123,47,190,0.12);}
 .timer-pill.warn{background:#FFF3E0;border-color:#E65100;color:#E65100;}
 .timer-pill.danger{background:#FFEBEE;border-color:#C62828;color:#C62828;animation:timerPulse 0.6s ease-in-out infinite;}
 @keyframes timerPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
@@ -98,13 +98,13 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 .gwrap{padding:0.9rem 1.1rem;}
 
 /* Turn banner */
-.turn-banner{border-radius:12px;padding:1.1rem 1.3rem;margin-bottom:0.85rem;font-size:23px;font-weight:800;text-align:center;
+.turn-banner{border-radius:12px;padding:1.2rem 1.4rem;margin-bottom:0.85rem;font-size:28px;font-weight:800;text-align:center;
   transition:all 0.3s;background:#E6F4EA;color:#0D652D;border:1.5px solid #81C995;}
 .turn-banner.cpu-turn{background:#F3E8FF;color:#6B21A8;border-color:#C084FC;animation:cpuThink 1.1s ease-in-out infinite;}
 @keyframes cpuThink{0%,100%{opacity:1;}50%{opacity:0.6;}}
 
 /* Message */
-.msg{border-radius:12px;padding:1.1rem 1.4rem;font-size:21px;font-weight:600;line-height:1.65;margin-bottom:0.85rem;
+.msg{border-radius:12px;padding:1.2rem 1.5rem;font-size:26px;font-weight:600;line-height:1.6;margin-bottom:0.85rem;
   display:flex;gap:8px;align-items:center;animation:msgIn 0.3s ease;}
 @keyframes msgIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
 .m-info{background:#E8F0FE;border:1.5px solid #A8C7FA;color:#0B57D0;}
@@ -113,16 +113,16 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 
 /* Criterion selector — YouTube filter chip style */
 .crit-panel{background:white;border-radius:12px;padding:1rem 1.15rem;margin-bottom:0.85rem;box-shadow:var(--shadow);}
-.crit-label{font-size:20px;font-weight:700;color:var(--text2);letter-spacing:0.3px;margin-bottom:0.75rem;}
+.crit-label{font-size:25px;font-weight:700;color:var(--text2);letter-spacing:0.3px;margin-bottom:0.75rem;}
 .chip-row{display:flex;gap:9px;flex-wrap:wrap;}
-.chip{padding:14px 28px;border-radius:24px;border:1.5px solid var(--border);background:var(--bg);font-size:22px;font-weight:700;
+.chip{padding:15px 30px;border-radius:24px;border:1.5px solid var(--border);background:var(--bg);font-size:27px;font-weight:700;
   cursor:pointer;font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:var(--text);transition:all 0.15s;}
 .chip:hover{background:#EFEFEF;}
 .chip.on{background:var(--text);color:white;border-color:var(--text);}
 
 /* Feed panel */
 .feed-panel{background:white;border-radius:12px;padding:1.1rem 1.2rem;margin-bottom:0.85rem;box-shadow:var(--shadow);}
-.feed-label{font-size:20px;font-weight:700;color:var(--text2);letter-spacing:0.3px;margin-bottom:0.8rem;}
+.feed-label{font-size:25px;font-weight:700;color:var(--text2);letter-spacing:0.3px;margin-bottom:0.8rem;}
 .feed-scroll{display:flex;flex-wrap:wrap;gap:10px 10px;overflow-x:visible;padding:4px 2px 12px;align-items:flex-start;min-height:auto;}
 .feed-scroll::-webkit-scrollbar{height:7px;}
 .feed-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
@@ -143,24 +143,24 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 .cpu-panel .next-slot{font-size:12px;}
 
 .arrow-col{flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;margin-top:110px;}
-.arrow{font-size:23px;color:var(--text3);font-weight:900;}
-.conn-tag{font-size:17px;font-weight:800;padding:7px 15px;border-radius:12px;white-space:nowrap;text-align:center;line-height:1.5;}
+.arrow{font-size:27px;color:var(--text3);font-weight:900;}
+.conn-tag{font-size:21px;font-weight:800;padding:8px 17px;border-radius:12px;white-space:nowrap;text-align:center;line-height:1.5;}
 .conn-genre{background:#FFF3E0;color:#B45309;border:1px solid #FDBA74;}
 .conn-crit{background:#EDE0FF;color:#6B21A8;border:1px solid #C084FC;}
 .conn-first{background:#E6F4EA;color:#0D652D;border:1px solid #81C995;}
 
 .next-slot{flex-shrink:0;width:240px;height:365px;border:2.5px dashed #BDBDBD;border-radius:14px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-  color:var(--text3);font-size:21px;font-weight:700;background:#FAFAFA;margin-top:0;}
-.next-slot .q{font-size:40px;}
+  color:var(--text3);font-size:25px;font-weight:700;background:#FAFAFA;margin-top:0;}
+.next-slot .q{font-size:46px;}
 
 /* Streak badge */
 .streak-badge{display:inline-flex;align-items:center;gap:4px;background:#FFF3E0;border:1.5px solid #FFCC80;color:#E65100;
-  font-size:19px;font-weight:800;padding:8px 19px;border-radius:16px;margin-left:6px;}
+  font-size:23px;font-weight:800;padding:9px 21px;border-radius:16px;margin-left:6px;}
 
 /* Hint */
 .hint-panel{background:linear-gradient(135deg,#F3E8FF,#EDE0FF);border:1.5px solid #C084FC;border-radius:12px;
-  padding:1.2rem 1.4rem;margin-bottom:0.85rem;font-size:20px;color:#6B21A8;line-height:1.8;}
+  padding:1.3rem 1.5rem;margin-bottom:0.85rem;font-size:25px;color:#6B21A8;line-height:1.75;}
 .hint-panel b{color:#4C1D95;}
 .hint-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
 
@@ -172,8 +172,8 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 
 .hand-panel{background:white;border-radius:12px;padding:1.1rem 1.2rem;box-shadow:var(--shadow);}
 .hand-head{margin-bottom:0.8rem;}
-.hand-label{font-size:21px;font-weight:800;color:var(--text);letter-spacing:0.3px;}
-.hand-sub{font-size:19px;font-weight:600;color:var(--text2);margin-top:2px;}
+.hand-label{font-size:26px;font-weight:800;color:var(--text);letter-spacing:0.3px;}
+.hand-sub{font-size:23px;font-weight:600;color:var(--text2);margin-top:2px;}
 .hand-cards{display:flex;flex-direction:column;gap:12px;max-height:72vh;overflow-y:auto;padding-right:4px;}
 .hand-cards .vcard{width:100%;}
 .hand-cards::-webkit-scrollbar{width:7px;}
@@ -231,7 +231,7 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 
 /* Action row */
 .act-row{display:flex;gap:8px;margin-top:0.9rem;justify-content:center;flex-wrap:wrap;}
-.btn{padding:16px 30px;border-radius:22px;border:none;font-size:21px;font-weight:700;cursor:pointer;
+.btn{padding:17px 32px;border-radius:22px;border:none;font-size:26px;font-weight:700;cursor:pointer;
   font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;transition:all 0.2s;}
 .btn:active{transform:scale(0.96);}
 .btn-draw{background:var(--blue);color:white;}
@@ -245,22 +245,23 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 /* ── MODALS ── */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:200;padding:1rem;}
 .overlay.show{display:flex;}
-.modal{background:white;border-radius:22px;padding:2.4rem 2.2rem;max-width:620px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
-.micon{font-size:62px;margin-bottom:0.5rem;}
-.mtitle{font-family:'Black Han Sans',sans-serif;font-size:33px;margin-bottom:0.5rem;line-height:1.3;}
+.modal{background:white;border-radius:22px;padding:2.4rem 2.2rem;max-width:620px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  max-height:90vh;overflow-y:auto;}
+.micon{font-size:70px;margin-bottom:0.5rem;}
+.mtitle{font-family:'Black Han Sans',sans-serif;font-size:40px;margin-bottom:0.5rem;line-height:1.3;}
 .mtitle-huge{font-size:69px !important;line-height:1.15;margin-bottom:0.6rem !important;}
-.mdesc{font-size:22px;color:var(--text2);line-height:1.85;margin-bottom:1.4rem;text-align:left;}
+.mdesc{font-size:27px;color:var(--text2);line-height:1.8;margin-bottom:1.4rem;text-align:left;}
 .mbtn{width:100%;padding:17px;background:var(--yt);color:white;border:none;border-radius:12px;
-  font-size:22px;font-weight:900;cursor:pointer;font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;transition:all 0.2s;}
+  font-size:27px;font-weight:900;cursor:pointer;font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;transition:all 0.2s;}
 .mbtn:hover{background:var(--yt-dark);}
 
 /* Tutorial modal */
 .tuto-dots{display:flex;gap:6px;justify-content:center;margin-bottom:1.2rem;}
-.tuto-body{font-size:21px;line-height:2.0;color:var(--text2);min-height:250px;text-align:left;font-weight:500;}
+.tuto-body{font-size:26px;line-height:1.9;color:var(--text2);min-height:250px;text-align:left;font-weight:500;}
 .tuto-body b{color:var(--text);}
-.tuto-box{background:var(--bg);border-radius:12px;padding:18px 20px;line-height:2.2;margin:14px 0;font-size:20.5px;}
+.tuto-box{background:var(--bg);border-radius:12px;padding:20px 22px;line-height:2.0;margin:14px 0;font-size:25px;}
 .tuto-nav{display:flex;gap:8px;margin-top:1.2rem;}
-.tuto-nav .btn{flex:1;border-radius:10px;font-size:18px;padding:14px 20px;}
+.tuto-nav .btn{flex:1;border-radius:10px;font-size:22px;padding:15px 22px;}
 .btn-prev{background:var(--bg);color:var(--text2);border:1px solid var(--border) !important;}
 .btn-next{background:var(--yt);color:white;flex:2 !important;}
 
@@ -277,13 +278,13 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
   .ytnav{gap:8px;padding:0.6rem 0.8rem;}
   .ytnav-row2{flex-wrap:wrap;gap:8px;}
   .score-card{order:3;flex-basis:100%;justify-content:center;padding:9px 18px;gap:16px;}
-  .score-emoji{font-size:29px;}
-  .score-label{font-size:20px;}
-  .score-num{font-size:33px;}
+  .score-emoji{font-size:34px;}
+  .score-label{font-size:25px;}
+  .score-num{font-size:39px;}
   .ytnav-stats{flex-wrap:wrap;gap:8px;order:4;flex-basis:100%;justify-content:center;}
-  .navstat{flex:1 1 28%;padding:8px 10px;font-size:18px;}
-  .navstat strong{font-size:28px;}
-  .timer-pill{flex-basis:100%;order:2;font-size:29px;padding:10px 18px;}
+  .navstat{flex:1 1 28%;padding:8px 10px;font-size:21px;}
+  .navstat strong{font-size:34px;}
+  .timer-pill{flex-basis:100%;order:2;font-size:34px;padding:11px 20px;}
 
   .vcard{width:min(240px, 44vw);}
   .next-slot{width:min(240px, 44vw);height:auto;min-height:280px;}
@@ -292,11 +293,11 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 
   .tlogo{font-size:clamp(30px,9vw,48px);}
   .modal{padding:1.6rem 1.3rem;max-width:94vw;}
-  .mtitle-huge{font-size:44px !important;}
-  .tuto-body{font-size:18px;}
-  .tuto-box{font-size:17.5px;padding:14px 16px;}
+  .mtitle-huge{font-size:48px !important;}
+  .tuto-body{font-size:22px;}
+  .tuto-box{font-size:21px;padding:14px 16px;}
 
-  .chip{padding:10px 18px;font-size:16px;}
+  .chip{padding:11px 20px;font-size:19px;}
   .hand-cards{gap:8px;}
   .act-row{flex-direction:column;}
   .act-row .btn{width:100%;}
@@ -332,7 +333,7 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 <!-- TUTORIAL MODAL -->
 <div class="overlay" id="tutoOverlay">
   <div class="modal">
-    <div style="font-family:'Black Han Sans',sans-serif;font-size:32px;text-align:center;margin-bottom:0.4rem;" id="tutoTitle"></div>
+    <div style="font-family:'Black Han Sans',sans-serif;font-size:38px;text-align:center;margin-bottom:0.4rem;" id="tutoTitle"></div>
     <div class="tuto-dots" id="tutoDots"></div>
     <div class="tuto-body" id="tutoBody"></div>
     <div class="tuto-nav">
@@ -865,7 +866,7 @@ function resolveRound(trigger){
 
   const cardLine = `<div style="text-align:center;margin:8px 0;">
     🧑 내 남은 카드: <b>${hand.length}장</b> &nbsp;|&nbsp; 🤖 인공지능 남은 카드: <b>${cpuHand.length}장</b><br>
-    <span style="font-size:18px;color:var(--text3);">(카드를 더 많이 쓴 쪽, 즉 적게 남은 쪽이 승리!)</span>
+    <span style="font-size:22px;color:var(--text3);">(카드를 더 많이 쓴 쪽, 즉 적게 남은 쪽이 승리!)</span>
     </div>`;
 
   let learnBlock = '';
@@ -887,7 +888,7 @@ function resolveRound(trigger){
     document.getElementById('againBtn').textContent='처음 화면으로 돌아가기 🏠';
     justCleared=true;
   } else {
-    learnBlock = `<div style="text-align:center;margin-top:8px;color:var(--text3);font-size:19px;">현재 전적: 나 ${myWins}승, 인공지능 ${cpuWins}승 ${ties>0?`(무 ${ties})`:''}</div>`;
+    learnBlock = `<div style="text-align:center;margin-top:8px;color:var(--text3);font-size:23px;">현재 전적: 나 ${myWins}승, 인공지능 ${cpuWins}승 ${ties>0?`(무 ${ties})`:''}</div>`;
     document.getElementById('againBtn').textContent='다음 라운드 준비하기 ▶';
     justCleared=false;
   }
@@ -1059,7 +1060,7 @@ function render(){
 function msg(type,txt){
   const map={info:['m-info','👉'],ok:['m-ok','🎉'],warn:['m-warn','⚠️']};
   const [cls,icon]=map[type];
-  document.getElementById('msgArea').innerHTML=`<div class="msg ${cls}"><span style="font-size:20px;">${icon}</span><span>${txt}</span></div>`;
+  document.getElementById('msgArea').innerHTML=`<div class="msg ${cls}"><span style="font-size:24px;">${icon}</span><span>${txt}</span></div>`;
 }
 
 // ── 이벤트 ──
