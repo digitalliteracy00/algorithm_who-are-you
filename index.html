@@ -186,6 +186,10 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
 .vcard.playable:hover{transform:translateY(-10px) scale(1.03);}
 .vcard.locked{opacity:0.4;cursor:not-allowed;filter:grayscale(0.55);}
+.vcard.mine{cursor:pointer;}
+.vcard.mine:hover{transform:translateY(-4px);box-shadow:0 6px 16px rgba(0,0,0,0.2);}
+.vcard.shake{animation:shakeX 0.45s;box-shadow:0 0 0 3px #E53935;}
+@keyframes shakeX{0%,100%{transform:translateX(0);}20%{transform:translateX(-7px);}40%{transform:translateX(7px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
 .vcard.waiting{opacity:0.55;cursor:not-allowed;}
 .vcard.cpu-card{box-shadow:0 0 0 3px var(--purple);}
 .vcard.instack{box-shadow:0 0 0 4px var(--yt);border-color:transparent;}
@@ -475,12 +479,12 @@ body.scroll-mode .act-row .btn{width:100%;}
         <div class="hand-panel">
           <div class="hand-head">
             <div class="hand-label">🖐 내 카드 (<span id="sHandCount2">10</span>장 남음)</div>
-            <div class="hand-sub">반짝이는 카드를 클릭하세요!</div>
+            <div class="hand-sub">카드를 눌러 보세요 (틀린 횟수 <b id="wrongInfo">0</b>/3)</div>
           </div>
           <div class="hand-cards" id="handCards"></div>
           <div class="act-row">
             <button class="btn btn-refresh" id="refreshBtn">🔄 새로고침 (<span id="refreshLeft">1</span>번 남음)</button>
-            <button class="btn btn-pass" id="passBtn" style="display:none;">🃏 낼 카드가 없어요! 뽑고 넘기기</button>
+            <button class="btn btn-pass" id="passBtn" style="display:none;">🃏 뽑고 넘기기</button>
           </div>
         </div>
       </div>
@@ -551,7 +555,8 @@ const TUTO=[
   },
   {
     title:"🏆 승리 조건",
-    body:`✅ 기준에 따라 낼 수 있는 카드는 <b style="color:var(--green);">초록색으로 반짝</b>여요! 반짝이는 카드 중에 하나를 선택하면 돼요.<br><br>
+    body:`✅ 카드를 눌러 보세요! 낼 수 있으면 <b style="color:var(--green);">"낼 수 있어요!"</b>라고 알려주면서 피드에 이어지고, 낼 수 없으면 <b style="color:var(--yt);">"낼 수 없어요"</b>라고 알려줘요.<br>
+      😅 낼 수 없는 카드를 <b style="color:var(--yt);">3번</b> 누르면 인공지능에게 기회가 넘어가요!<br><br>
       <div class="tuto-box">
       🃏 내 차례인데 낼 카드가 없으면?<br>
       &nbsp;&nbsp;&nbsp;→ <b>카드를 한 장 뽑고</b> 인공지능 차례로 넘어가요!<br><br>
@@ -660,6 +665,13 @@ let cpuHand,cpuDrawPile;
 let timeLeft, timerId, cpuThinkTimeout;
 let turn='me'; // 'me' | 'cpu'
 let passStreak=0; // 연속 패스 횟수 (둘 다 패스하면 라운드 종료)
+let wrongClicks=0; // 이번 내 차례에서 낼 수 없는 카드를 누른 횟수 (3번이면 차례가 넘어감)
+const MAX_WRONG=3;
+function setWrong(n){
+  wrongClicks=n;
+  const el=document.getElementById('wrongInfo');
+  if(el) el.textContent=n;
+}
 let roundLocked=false, roundStarted=false, roundNum=0, justCleared=false;
 let myWins=0, cpuWins=0, ties=0;
 
@@ -712,6 +724,7 @@ function prepareRound(resetSeries){
   crit='views';
   turn='me';
   passStreak=0;
+  setWrong(0);
 
   // 나의 카드 5장 + 막혔을 때 뽑을 예비 카드
   const myPool=makeDeck();
@@ -742,6 +755,7 @@ function beginRound(){
   document.getElementById('roundStartOverlay').classList.remove('show');
   roundStarted=true;
   turn='me';
+  setWrong(0);
   startTimer();
   render();
   msg('info','내가 먼저예요! 첫 영상을 골라보세요. 무엇이든 OK예요 👆');
@@ -777,7 +791,19 @@ function play(idx){
   const card=hand[idx];
   const result=evalPlacement(card);
   if(!result.ok){
-    msg('warn','앗, 이 카드는 규칙에 안 맞아요! 힌트를 다시 확인해보세요.');
+    const bad=document.getElementById('handCards').children[idx];
+    if(bad){ bad.classList.remove('shake'); void bad.offsetWidth; bad.classList.add('shake'); setTimeout(()=>bad.classList.remove('shake'),500); }
+    setWrong(wrongClicks+1);
+    if(wrongClicks>=MAX_WRONG){
+      // 3번 틀리면 자동으로 인공지능에게 기회가 넘어감
+      turn='cpu';
+      passStreak=0;
+      msg('warn','🙅 낼 수 없는 카드를 '+MAX_WRONG+'번 눌렀어요! 인공지능에게 기회가 넘어가요.');
+      render();
+      cpuThinkTimeout=setTimeout(cpuTurn, CPU_THINK_MS);
+    } else {
+      msg('warn','🙅 낼 수 없어요! 다른 카드를 눌러 보세요. ('+wrongClicks+'/'+MAX_WRONG+')');
+    }
     return;
   }
   const reason=result.reason;
@@ -794,7 +820,7 @@ function play(idx){
   passStreak=0;
 
   render();
-  msg('ok', reasonText(card,reason,'me'));
+  msg('ok', '✅ 낼 수 있어요! '+reasonText(card,reason,'me'));
 
   if(chain.length>=GOAL){
     roundLocked=true;
@@ -869,6 +895,7 @@ function cpuTurn(){
       }
     }
     turn='me';
+    setWrong(0);
     render();
     return;
   }
@@ -893,6 +920,7 @@ function cpuTurn(){
     return;
   }
   turn='me';
+  setWrong(0);
   render();
 }
 
@@ -1054,25 +1082,17 @@ function render(){
   if(sameSet){
     hand.forEach((c,i)=>{
       const el=existingEls[i];
-      const ok = myTurn && canPlay(c);
-      const newClass='vcard '+(ok?'playable':(myTurn?'locked':'waiting'));
+      const newClass='vcard '+(myTurn?'mine':'waiting');
       if(el.className!==newClass) el.className=newClass;
       el.querySelectorAll('.cs').forEach(cs=>cs.classList.toggle('active', cs.dataset.k===crit));
-      const tagEl=el.querySelector('.play-tag');
-      if(ok && !tagEl){
-        el.insertAdjacentHTML('afterbegin','<span class="play-tag">낼 수 있어요!</span>');
-      } else if(!ok && tagEl){
-        tagEl.remove();
-      }
     });
   } else {
     hc.innerHTML='';
     hand.forEach((c,i)=>{
       const el=document.createElement('div');
       el.dataset.id=String(c.id);
-      const ok = myTurn && canPlay(c);
-      el.className='vcard '+(ok?'playable':(myTurn?'locked':'waiting'))+(c._new?' just-drawn':'');
-      el.innerHTML=(ok?'<span class="play-tag">낼 수 있어요!</span>':'')+cardHTML(c);
+      el.className='vcard '+(myTurn?'mine':'waiting')+(c._new?' just-drawn':'');
+      el.innerHTML=cardHTML(c);
       el.onclick=()=>play(i);
       hc.appendChild(el);
       if(c._new){
@@ -1095,8 +1115,7 @@ function render(){
   rBtn.disabled = refreshLeft<=0 || freePlay || !myTurn;
 
   const pBtn=document.getElementById('passBtn');
-  const noPlayable = myTurn && !hand.some(canPlay);
-  pBtn.style.display = noPlayable ? 'inline-block' : 'none';
+  pBtn.style.display = myTurn ? 'inline-block' : 'none';
 }
 
 function msg(type,txt){
