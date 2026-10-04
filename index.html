@@ -265,47 +265,107 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 .btn-prev{background:var(--bg);color:var(--text2);border:1px solid var(--border) !important;}
 .btn-next{background:var(--yt);color:white;flex:2 !important;}
 
-/* ── 반응형: 갤럭시탭 세로모드, 분할화면 크롬북 등 좁은 화면 대응 ── */
-/* 좁은 화면(태블릿 세로 등)에서는 2단 레이아웃을 다시 세로로 쌓음 */
-@media (max-width: 1100px){
-  .layout-row{flex-direction:column;}
-  .hand-col{width:100%;position:static;}
-  .hand-cards{flex-direction:row;flex-wrap:wrap;justify-content:center;max-height:none;overflow-y:visible;}
-  .hand-cards .vcard{width:240px;}
-}
+/* ══════════════════════════════════════════════
+   컴팩트 카드 (피드 · 내 카드 공용)
+   ══════════════════════════════════════════════ */
+.feed-label{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px 14px;}
+.feed-legend{font-size:16px;font-weight:700;color:var(--text3);white-space:nowrap;}
+.feed-scroll{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;overflow:visible;padding:4px;min-height:0;align-items:stretch;}
+.hand-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;max-height:none;overflow:visible;padding:6px;}
+.feed-scroll .vcard,.hand-cards .vcard{width:auto;min-width:0;display:flex;flex-direction:column;border-radius:12px;}
+.chead{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 9px;min-height:40px;color:#fff;font-weight:900;font-size:18px;white-space:nowrap;}
+.cg{min-width:0;overflow:hidden;}
+.ctag{background:rgba(255,255,255,0.28);border-radius:10px;padding:2px 7px;font-size:13px;font-weight:800;white-space:nowrap;}
+.cbody{padding:7px 9px 9px;display:flex;flex-direction:column;justify-content:space-between;flex:1;min-height:0;gap:6px;}
+.ctitle{font-size:19px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);}
+.cstats{display:flex;flex-wrap:wrap;gap:4px;}
+.cs{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:3px;font-size:17px;font-weight:800;color:var(--text);
+  background:var(--bg);border-radius:8px;padding:3px 4px;white-space:nowrap;}
+.cs .ci{font-size:15px;}
+.cs.active{background:#FFF1B8;box-shadow:inset 0 0 0 2px #F5B700;}
+.hand-cards .play-tag{top:6px;right:6px;font-size:13px;padding:3px 8px;border-radius:11px;}
+.feed-scroll .next-slot{width:auto;height:auto;min-height:140px;margin:0;font-size:20px;border-radius:12px;}
+.feed-scroll .next-slot .q{font-size:36px;}
+.navstat small{font-size:0.55em;font-weight:800;color:var(--text3);margin-left:2px;}
+
+.top-strip{display:flex;gap:10px;flex-wrap:wrap;}
+.top-strip .turn-banner{margin:0;flex:1 1 100%;}
+.top-strip #msgArea{flex:1 1 100%;min-width:0;display:flex;}
+.top-strip .msg{flex:1;margin:0;min-width:0;}
+
+/* ══════════════════════════════════════════════
+   한 화면 맞춤 모드 (가로형 화면): 스크롤 없이 전체가 한눈에
+   — 1600x860 크기의 무대를 화면에 맞춰 자동 확대/축소
+   ══════════════════════════════════════════════ */
+body.fit-mode.playing{overflow:hidden;}
+body.fit-mode #gameScreen{position:fixed;left:0;top:0;width:1600px;height:860px;max-width:none;margin:0;padding:0;overflow:hidden;
+  transform-origin:0 0;background:var(--bg);}
+body.fit-mode .ytnav{position:static;height:164px;padding:8px 20px;gap:6px;box-sizing:border-box;}
+body.fit-mode .ytnav-logo{height:34px;}
+body.fit-mode .ytnav-title{font-size:26px;}
+body.fit-mode .ytnav-row2{height:104px;gap:14px;}
+body.fit-mode .score-card{flex:1.1;padding:6px 14px;gap:16px;}
+body.fit-mode .score-side{display:grid;grid-template-columns:auto auto;column-gap:6px;align-items:center;justify-content:center;}
+body.fit-mode .score-emoji{font-size:32px;}
+body.fit-mode .score-label{font-size:24px;margin:0;}
+body.fit-mode .score-num{grid-column:1 / span 2;text-align:center;font-size:44px;margin:0;}
+body.fit-mode .score-colon{font-size:32px;}
+body.fit-mode .ytnav-stats{flex:2.6;gap:12px;}
+body.fit-mode .navstat{font-size:22px;padding:4px 6px;}
+body.fit-mode .navstat strong{font-size:40px;margin-top:2px;}
+body.fit-mode .timer-pill{flex:0.8;font-size:42px;padding:6px 12px;}
+
+body.fit-mode .gwrap{height:696px;padding:12px 20px;box-sizing:border-box;}
+body.fit-mode .layout-row{height:100%;align-items:stretch;gap:16px;}
+body.fit-mode .main-col{display:flex;flex-direction:column;gap:10px;min-height:0;}
+body.fit-mode .top-strip{flex:0 0 66px;height:66px;flex-wrap:nowrap;}
+body.fit-mode .top-strip .turn-banner{flex:0 0 430px;display:flex;align-items:center;justify-content:center;font-size:23px;padding:0 10px;white-space:nowrap;}
+body.fit-mode .top-strip #msgArea{flex:1;}
+body.fit-mode .top-strip .msg{font-size:22px;line-height:1.25;padding:4px 14px;overflow:hidden;}
+body.fit-mode .crit-panel{margin:0;padding:0 14px;height:64px;flex:0 0 64px;display:flex;align-items:center;gap:14px;}
+body.fit-mode .crit-label{font-size:21px;margin:0;white-space:nowrap;}
+body.fit-mode .chip-row{flex-wrap:nowrap;gap:8px;}
+body.fit-mode .chip{padding:7px 16px;font-size:22px;white-space:nowrap;}
+body.fit-mode .feed-panel{margin:0;flex:1;min-height:0;display:flex;flex-direction:column;padding:10px 14px;}
+body.fit-mode .feed-label{font-size:21px;margin-bottom:6px;flex-wrap:nowrap;}
+body.fit-mode .feed-scroll{flex:1;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));}
+body.fit-mode .hint-panel{margin:0;flex:0 0 auto;padding:8px 16px;font-size:22px;line-height:1.3;}
+body.fit-mode .hint-row{flex-wrap:nowrap;}
+body.fit-mode .streak-badge{font-size:18px;padding:2px 12px;margin-left:10px;}
+body.fit-mode .hand-col{width:460px;position:static;height:100%;min-height:0;}
+body.fit-mode .hand-panel{height:100%;display:flex;flex-direction:column;padding:12px 14px;min-height:0;box-sizing:border-box;}
+body.fit-mode .hand-head{margin-bottom:8px;}
+body.fit-mode .hand-label{font-size:25px;}
+body.fit-mode .hand-sub{font-size:19px;margin-top:0;}
+body.fit-mode .hand-cards{flex:1;min-height:0;overflow-y:auto;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;}
+body.fit-mode .act-row{margin-top:8px;flex-wrap:nowrap;gap:8px;}
+body.fit-mode .act-row .btn{flex:1;font-size:20px;padding:10px 8px;border-radius:16px;line-height:1.2;}
+
+/* ══════════════════════════════════════════════
+   스크롤 모드 (세로 화면·아주 좁은 창): 위에서 아래로 쌓고 스크롤
+   ══════════════════════════════════════════════ */
+body.scroll-mode .layout-row{flex-direction:column;}
+body.scroll-mode .hand-col{width:100%;position:static;}
+body.scroll-mode .ytnav{gap:8px;padding:0.6rem 0.8rem;}
+body.scroll-mode .ytnav-row2{flex-wrap:wrap;gap:8px;}
+body.scroll-mode .score-card{order:3;flex-basis:100%;justify-content:center;padding:9px 18px;gap:16px;}
+body.scroll-mode .score-emoji{font-size:34px;}
+body.scroll-mode .score-label{font-size:25px;}
+body.scroll-mode .score-num{font-size:39px;}
+body.scroll-mode .ytnav-stats{flex-wrap:wrap;gap:8px;order:4;flex-basis:100%;justify-content:center;}
+body.scroll-mode .navstat{flex:1 1 28%;padding:8px 10px;font-size:21px;}
+body.scroll-mode .navstat strong{font-size:34px;}
+body.scroll-mode .timer-pill{flex-basis:100%;order:2;font-size:34px;padding:11px 20px;}
+body.scroll-mode .chip{padding:11px 20px;font-size:19px;}
+body.scroll-mode .act-row{flex-direction:column;}
+body.scroll-mode .act-row .btn{width:100%;}
 
 @media (max-width: 760px){
-  .ytnav{gap:8px;padding:0.6rem 0.8rem;}
-  .ytnav-row2{flex-wrap:wrap;gap:8px;}
-  .score-card{order:3;flex-basis:100%;justify-content:center;padding:9px 18px;gap:16px;}
-  .score-emoji{font-size:34px;}
-  .score-label{font-size:25px;}
-  .score-num{font-size:39px;}
-  .ytnav-stats{flex-wrap:wrap;gap:8px;order:4;flex-basis:100%;justify-content:center;}
-  .navstat{flex:1 1 28%;padding:8px 10px;font-size:21px;}
-  .navstat strong{font-size:34px;}
-  .timer-pill{flex-basis:100%;order:2;font-size:34px;padding:11px 20px;}
-
-  .vcard{width:min(240px, 44vw);}
-  .next-slot{width:min(240px, 44vw);height:auto;min-height:280px;}
-  .feed-scroll{min-height:auto;}
-  .arrow-col{margin-top:70px;}
-
   .tlogo{font-size:clamp(30px,9vw,48px);}
   .modal{padding:1.6rem 1.3rem;max-width:94vw;}
   .mtitle-huge{font-size:48px !important;}
   .tuto-body{font-size:22px;}
   .tuto-box{font-size:21px;padding:14px 16px;}
-
-  .chip{padding:11px 20px;font-size:19px;}
-  .hand-cards{gap:8px;}
-  .act-row{flex-direction:column;}
-  .act-row .btn{width:100%;}
-}
-
-@media (max-width: 420px){
-  .vcard{width:min(220px, 72vw);}
-  .next-slot{width:min(220px, 72vw);}
 }
 
 /* 터치 기기(탭/스와이프)에서 hover로 인한 애니메이션 고착 방지 */
@@ -368,8 +428,8 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
     </div>
 
     <div class="ytnav-stats">
-      <div class="navstat">🎬 라운드<strong id="sRoundNum">1</strong>/6</div>
-      <div class="navstat">진행<strong id="sChain">0</strong>/10</div>
+      <div class="navstat">🎬 라운드<strong><span id="sRoundNum">1</span><small>/6</small></strong></div>
+      <div class="navstat">진행<strong><span id="sChain">0</span><small>/10</small></strong></div>
       <div class="navstat">🧑 내 카드<strong id="sHandCount">10</strong></div>
       <div class="navstat">🤖 인공지능 카드<strong id="sCpuHandCount">10</strong></div>
     </div>
@@ -380,17 +440,18 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
   </div>
 
   <div class="gwrap">
-    <div id="msgArea"></div>
-
     <div class="layout-row">
       <!-- 왼쪽: 턴배너·기준선택·피드·힌트 -->
       <div class="main-col">
-        <!-- Turn indicator -->
-        <div class="turn-banner" id="turnBanner">🧑 내 차례예요! 카드를 골라보세요</div>
+        <!-- Turn indicator + message -->
+        <div class="top-strip">
+          <div class="turn-banner" id="turnBanner">🧑 내 차례예요! 카드를 골라보세요</div>
+          <div id="msgArea"></div>
+        </div>
 
         <!-- Criterion selector -->
         <div class="crit-panel">
-          <div class="crit-label">🔗 다른 장르 카드를 연결할 기준을 골라보세요 (같은 장르는 기준 없이 3장까지 연속 가능!)</div>
+          <div class="crit-label">🔗 다른 장르 연결 기준</div>
           <div class="chip-row" id="critRow">
             <button class="chip on" data-c="views">📊 조회수</button>
             <button class="chip" data-c="subs">👥 구독자수</button>
@@ -401,7 +462,7 @@ body{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif
 
         <!-- Feed -->
         <div class="feed-panel">
-          <div class="feed-label">📺 우리가 함께 만드는 추천 피드 <span id="feedGoalText">(카드 10장을 채워보세요!)</span></div>
+          <div class="feed-label"><span>📺 우리가 함께 만드는 추천 피드 <span id="feedGoalText">(0/10)</span></span><span class="feed-legend">📊 조회수 👥 구독자수 ⏱ 재생시간 📅 게시일</span></div>
           <div class="feed-scroll" id="feedScroll"></div>
         </div>
 
@@ -518,6 +579,8 @@ document.getElementById('tutoNext').addEventListener('click',()=>{
     document.getElementById('tutoOverlay').classList.remove('show');
     document.getElementById('titleScreen').style.display='none';
     document.getElementById('gameScreen').style.display='block';
+    document.body.classList.add('playing');
+    fitStage();
     prepareRound(true);
   }
 });
@@ -900,38 +963,28 @@ function resolveRound(trigger){
 // ── 렌더 ──
 const GENRE_NAME={요리:'🍳 요리',동물:'🐶 동물',음악:'🎵 음악',스포츠:'⚽ 스포츠',게임:'🎮 게임',예능:'😂 예능'};
 
-function avatarInitial(ch){ return ch.charAt(0); }
-
-function cardHTML(c){
-  return `<div class="vthumb g-${c.genre}">
-      <span>${c.e}</span>
-      <span class="vdur">${fmtDur(c.duration)}</span>
-      <span class="vgenre-badge">${GENRE_NAME[c.genre]}</span>
-    </div>
-    <div class="vinfo">
-      <div class="vhead-row">
-        <div class="vavatar av-${c.genre}">${avatarInitial(c.channel)}</div>
-        <div class="vmeta">
-          <div class="vtitle">${c.title}</div>
-          <div class="vchannel">${c.channel}</div>
-        </div>
-      </div>
-      <div class="vstat-grid">
-        <div class="vstat"><span class="vs-label">📊 조회수</span><span class="vs-val">${fmtNum(c.views)}회</span></div>
-        <div class="vstat"><span class="vs-label">👥 구독자수</span><span class="vs-val">${fmtNum(c.subs)}명</span></div>
-        <div class="vstat"><span class="vs-label">⏱ 재생시간</span><span class="vs-val">${fmtDur(c.duration)}</span></div>
-        <div class="vstat"><span class="vs-label">📅 게시일</span><span class="vs-val">${c.daysAgo}일 전</span></div>
+function cardHTML(c, tagHTML){
+  const cell=(key,icon,val)=>`<div class="cs${crit===key?' active':''}" data-k="${key}"><span class="ci">${icon}</span><span>${val}</span></div>`;
+  return `<div class="chead g-${c.genre}"><span class="cg">${GENRE_NAME[c.genre]}</span>${tagHTML||''}</div>
+    <div class="cbody">
+      <div class="ctitle">${c.title}</div>
+      <div class="cstats">
+        ${cell('views','📊',fmtNum(c.views)+'회')}
+        ${cell('subs','👥',fmtNum(c.subs)+'명')}
+        ${cell('duration','⏱',fmtDur(c.duration))}
+        ${cell('date','📅',c.daysAgo+'일 전')}
       </div>
     </div>`;
 }
 
-function connTagHTML(reason,card){
-  const whoTag = card.connWho==='cpu' ? '🤖' : '🧑';
-  if(reason==='first') return `<div class="conn-tag conn-first">🎬 ${whoTag} 시작 카드</div>`;
-  if(reason==='free') return `<div class="conn-tag conn-crit">🔄 ${whoTag} 새로고침</div>`;
-  if(reason==='genre') return `<div class="conn-tag conn-genre">🔥 ${whoTag} 같은 장르</div>`;
-  if(reason==='criterion') return `<div class="conn-tag conn-crit">📈 ${whoTag} ${statLabel(card.connCrit)} 조건</div>`;
-  return '';
+function connTagCompact(reason,card){
+  const who = card.connWho==='cpu' ? '🤖' : '🧑';
+  let t='';
+  if(reason==='first') t='시작';
+  else if(reason==='free') t='새로고침';
+  else if(reason==='genre') t='같은 장르';
+  else if(reason==='criterion') t=statLabel(card.connCrit);
+  return `<span class="ctag">${who} ${t}</span>`;
 }
 
 function render(){
@@ -954,22 +1007,12 @@ function render(){
   const fs=document.getElementById('feedScroll');
   fs.innerHTML='';
   chain.forEach((c,i)=>{
-    if(i>0){
-      const col=document.createElement('div'); col.className='arrow-col';
-      col.innerHTML='<span class="arrow">→</span>'+connTagHTML(c.connReason,c);
-      fs.appendChild(col);
-    }
     const el=document.createElement('div');
     el.className='vcard'+(i===chain.length-1?' instack':'')+(c.connWho==='cpu'?' cpu-card':'');
-    el.innerHTML=cardHTML(c);
+    el.innerHTML=cardHTML(c, connTagCompact(c.connReason,c));
     fs.appendChild(el);
   });
   if(chain.length<GOAL){
-    if(chain.length>0){
-      const col=document.createElement('div'); col.className='arrow-col';
-      col.innerHTML='<span class="arrow">→</span>';
-      fs.appendChild(col);
-    }
     const slot=document.createElement('div');
     slot.className='next-slot';
     slot.innerHTML = chain.length===0
@@ -980,7 +1023,7 @@ function render(){
   // (피드가 줄바꿈되므로 더 이상 가로 스크롤 위치를 맞출 필요 없음)
 
   document.getElementById('feedGoalText').textContent =
-    chain.length===0 ? '(첫 영상을 골라보세요!)' : `(${chain.length}/10 — 번갈아 가며 완성해요!)`;
+    chain.length===0 ? '(첫 영상을 골라보세요!)' : `(${chain.length}/10)`;
 
   // hint
   const hintEl=document.getElementById('hintPanel');
@@ -995,9 +1038,7 @@ function render(){
         <span>💡 마지막 카드: <b>[${last.genre}]</b> · ${statLabel(crit)} <b>${statDisplay(last,crit)}</b></span>
         <span class="streak-badge">🔥 같은 장르 연속 ${streak}/3</span>
       </div>
-      <div style="margin-top:4px;">
-      → <b>${last.genre} 카드</b>(3장 미만 연속 시)이거나,<br>
-      → <b>${statLabel(crit)}가 ${statDisplay(last,crit)} 이상</b>인 다른 장르 카드를 낼 수 있어요!</div>`;
+      <div>→ <b>${last.genre}</b> 카드이거나, <b>${statLabel(crit)} ${statDisplay(last,crit)} 이상</b>인 다른 장르 카드를 낼 수 있어요!</div>`;
   }
 
   // hand — 카드 구성이 실제로 바뀌었을 때만 새로 그리고,
@@ -1016,6 +1057,7 @@ function render(){
       const ok = myTurn && canPlay(c);
       const newClass='vcard '+(ok?'playable':(myTurn?'locked':'waiting'));
       if(el.className!==newClass) el.className=newClass;
+      el.querySelectorAll('.cs').forEach(cs=>cs.classList.toggle('active', cs.dataset.k===crit));
       const tagEl=el.querySelector('.play-tag');
       if(ok && !tagEl){
         el.insertAdjacentHTML('afterbegin','<span class="play-tag">낼 수 있어요!</span>');
@@ -1036,7 +1078,7 @@ function render(){
       if(c._new){
         setTimeout(()=>{ el.classList.remove('just-drawn'); },1600);
         delete c._new;
-        setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'end'}),50);
+        setTimeout(()=>{ hc.scrollTop=hc.scrollHeight; },50);
       }
     });
   }
@@ -1083,12 +1125,33 @@ document.getElementById('againBtn').addEventListener('click',()=>{
     clearInterval(timerId);
     clearTimeout(cpuThinkTimeout);
     document.getElementById('gameScreen').style.display='none';
+    document.body.classList.remove('playing');
     document.getElementById('titleScreen').style.display='flex';
   } else {
     prepareRound(false);
   }
 });
 document.getElementById('roundStartBtn').addEventListener('click',beginRound);
+
+// ── 한 화면 맞춤: 1600x860 무대를 화면 크기에 맞춰 자동 확대/축소 (가로형 화면) ──
+const STAGE_W=1600, STAGE_H=860;
+function fitStage(){
+  const gs=document.getElementById('gameScreen');
+  const w=window.innerWidth, h=window.innerHeight;
+  const fit = w>=900 && (w/h)>=1.2;
+  document.body.classList.toggle('fit-mode', fit);
+  document.body.classList.toggle('scroll-mode', !fit);
+  if(fit){
+    const s=Math.min(w/STAGE_W, h/STAGE_H);
+    const ox=(w-STAGE_W*s)/2, oy=(h-STAGE_H*s)/2;
+    gs.style.transform='translate('+ox+'px,'+oy+'px) scale('+s+')';
+  } else {
+    gs.style.transform='';
+  }
+}
+window.addEventListener('resize',fitStage);
+window.addEventListener('orientationchange',fitStage);
+fitStage();
 
 })();
 </script>
